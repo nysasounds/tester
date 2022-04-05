@@ -1,0 +1,35 @@
+name: tester
+base: core20
+summary: Test
+description: |
+  Testing testing 1 2 3
+confinement: strict
+grade: stable
+adopt-info: testing
+architectures:
+  - amd64
+
+apps:
+  testing:
+    command: bin/testing
+    #environment:
+    #  GROFF_FONT_PATH: "$SNAP/usr/share/groff/current/font"
+    #  GROFF_TMAC_PATH: "$SNAP/usr/share/groff/current/tmac"
+    completer: tester-completion.bash
+
+parts:
+  testing:
+    plugin: dump
+    source: bin
+    override-build: |
+      snapcraftctl build
+      snapcraftctl set-version 0.0.0
+    organize:
+      testing: bin/testing
+  completion:
+    plugin: dump
+    source: bin
+    organize:
+      completer: tester-completion.bash
+    after:
+      - testing

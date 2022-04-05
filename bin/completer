@@ -1,0 +1,20 @@
+#!/bin/bash
+
+_tester_completer() {
+local cur prev network_names
+
+COMPREPLY=()
+
+cur="${COMP_WORDS[COMP_CWORD]}"
+prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+network_names="foo bar moo boo"
+
+
+# Network names #
+if [ "${prev}" == "-n" -o "${prev}" == "--network" ] ; then
+    COMPREPLY=( $(compgen -W "${network_names}" -- ${cur}) )
+    return 0
+fi
+}
+complete -o default -F _tester_completer tester.testing testing tester
